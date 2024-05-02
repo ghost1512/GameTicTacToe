@@ -16,7 +16,57 @@ internal class Program
     static TicTac ticTac = TicTac.Next;
     private static void Main(string[] args)
     {
+        Console.WriteLine("Start!");
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Player 1: X and Player 2: O");
+            Console.WriteLine("\n");
+            if (player % 2 == 0)
+            {
+                Console.WriteLine("Turn Player 2");
+            }
+            else
+            {
+                Console.WriteLine("Turn Player 1");
+            }
+            Console.WriteLine("\n");
+            DrawBoard();
+            //Player Step
+            choice = int.Parse(Console.ReadLine()) - 1;
+            if (board[choice] != 'X' && board[choice] != 'O')
+            {
+                if (player % 2 == 0)
+                {
+                    board[choice] = 'O';
+                    player++;
+                }
+                else
+                {
+                    board[choice] = 'X';
+                    player++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sorry the row {0} is already marked with an {1}", choice + 1, board[choice]);
+                Thread.Sleep(000);
+            }
+            CheckWin();
+        }
+        while (ticTac != TicTac.Win && ticTac != TicTac.Draw);
+        Console.Clear();
+        DrawBoard();
 
+        if (flag == 1)
+        {
+            Console.WriteLine("Player {0} has won!", player % 2 + 1);
+        }
+        else
+        {
+            Console.WriteLine("Draw!");
+        }
+        Console.ReadLine();
 
         void DrawBoard()
         {
@@ -80,57 +130,7 @@ internal class Program
             }
         }
 
-        Console.WriteLine("Start!");
-        do
-        {
-            Console.Clear();
-            Console.WriteLine("Player 1: X and Player 2: O");
-            Console.WriteLine("\n");
-            if (player % 2 == 0)
-            {
-                Console.WriteLine("Turn Player 2");
-            }
-            else
-            {
-                Console.WriteLine("Turn Player 1");
-            }
-            Console.WriteLine("\n");
-            DrawBoard();
-            //Player Step
-            choice = int.Parse(Console.ReadLine()) - 1;
-            if (board[choice] != 'X' && board[choice] != 'O')
-            {
-                if (player % 2 == 0)
-                {
-                    board[choice] = 'O';
-                    player++;
-                }
-                else
-                {
-                    board[choice] = 'X';
-                    player++;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Sorry the row {0} is already marked with an {1}", choice + 1, board[choice]);
-                Thread.Sleep(000);
-            }
-            CheckWin();
-        }
-        while (ticTac != TicTac.Win && ticTac != TicTac.Draw);
-        Console.Clear();
-        DrawBoard();
 
-        if (flag == 1)
-        {
-            Console.WriteLine("Player {0} has won!", player % 2 + 1);
-        }
-        else
-        {
-            Console.WriteLine("Draw!");
-        }
-        Console.ReadLine();
     }
 }
 
