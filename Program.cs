@@ -6,7 +6,6 @@ internal class Program
     static char[] board = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     static int player = 1;
     static int choice = 0;
-    static int flag = 0;
     enum TicTac
     {
         Win,
@@ -58,7 +57,7 @@ internal class Program
         Console.Clear();
         DrawBoard();
 
-        if (flag == 1)
+        if (ticTac == TicTac.Win)
         {
             Console.WriteLine("Player {0} has won!", player % 2 + 1);
         }
