@@ -1,121 +1,137 @@
 ﻿
 using System;
 
-char[] board = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-int player = 1;
-int choice = 0;
-int flag = 0;
-
-void DrawBoard()
+internal class Program
 {
-    Console.WriteLine("  {0}  |  {1}  |  {2}", board[0], board[1], board[2]);
-    Console.WriteLine("_____ _____ _____ ");
-    Console.WriteLine("  {0}  |  {1}  |  {2}", board[3], board[4], board[5]);
-    Console.WriteLine("_____ _____ _____ ");
-    Console.WriteLine("  {0}  |  {1}  |  {2}", board[6], board[7], board[8]);
-}
-
-int CheckWin()
-{
-    //Horzontal Winning Condtion
-    if (board[0] == board[1] && board[1] == board[2])
+    static char[] board = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    static int player = 1;
+    static int choice = 0;
+    static int flag = 0;
+    enum TicTac
     {
-        return 1;
-    }
-    else if (board[3] == board[4] && board[4] == board[5])
+        Win,
+        Draw,
+        Next
+    };
+    static TicTac ticTac = TicTac.Next;
+    private static void Main(string[] args)
     {
-        return 1;
-    }
-    else if (board[6] == board[7] && board[7] == board[8])
-    {
-        return 1;
-    }
-
-    //Vertical Winning Condtion
-    else if (board[0] == board[3] && board[3] == board[6])
-    {
-        return 1;
-    }
-    else if (board[1] == board[4] && board[4] == board[7])
-    {
-        return 1;
-    }
-    else if (board[2] == board[5] && board[5] == board[8])
-    {
-        return 1;
-    }
-
-    //Diagonal Winning Condition
-    else if (board[0] == board[4] && board[4] == board[8])
-    {
-        return 1;
-    }
-    else if (board[2] == board[4] && board[4] == board[6])
-    {
-        return 1;
-    }
-
-    //Checking For Draw
-    else if (board[0] != '1' && board[1] != '2' && board[2] != '3' && board[3] != '4' && board[4] != '5' && board[5] != '6' && board[6] != '7' && board[7] != '8' && board[8] != '9')
-    {
-        return -1;
-    }
 
 
-    else
-    {
-        return 0;
-    }
-}
-
-Console.WriteLine("Start!");
-do
-{
-    Console.Clear();
-    Console.WriteLine("Player 1: X and Player 2: O");
-    Console.WriteLine("\n");
-    if (player % 2 == 0)
-    {
-        Console.WriteLine("Turn Player 2");
-    }
-    else
-    {
-        Console.WriteLine("Turn Player 1");
-    }
-    Console.WriteLine("\n");
-    DrawBoard();
-    //Player Step
-    choice = int.Parse(Console.ReadLine()) - 1;
-    if (board[choice] != 'X' && board[choice] != 'O')
-    {
-        if (player % 2 == 0)
+        void DrawBoard()
         {
-            board[choice] = 'O';
-            player++;
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[0], board[1], board[2]);
+            Console.WriteLine("_____ _____ _____ ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[3], board[4], board[5]);
+            Console.WriteLine("_____ _____ _____ ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[6], board[7], board[8]);
+        }
+
+        static void CheckWin()
+        {
+            //Điều kiện chiến thắng theo chiều ngang
+            if (board[0] == board[1] && board[1] == board[2])
+            {
+                ticTac = TicTac.Win;
+            }
+            else if (board[3] == board[4] && board[4] == board[5])
+            {
+                ticTac = TicTac.Win;
+            }
+            else if (board[6] == board[7] && board[7] == board[8])
+            {
+                ticTac = TicTac.Win;
+            }
+
+            //Điều kiện thắng theo chiều dọc
+            else if (board[0] == board[3] && board[3] == board[6])
+            {
+                ticTac = TicTac.Win;
+            }
+            else if (board[1] == board[4] && board[4] == board[7])
+            {
+                ticTac = TicTac.Win;
+            }
+            else if (board[2] == board[5] && board[5] == board[8])
+            {
+                ticTac = TicTac.Win;
+            }
+
+            //Điều kiện thắng theo đường chéo
+            else if (board[0] == board[4] && board[4] == board[8])
+            {
+                ticTac = TicTac.Win;
+            }
+            else if (board[2] == board[4] && board[4] == board[6])
+            {
+                ticTac = TicTac.Win;
+            }
+
+            //Kiểm tra hoa
+            else if (board[0] != '1' && board[1] != '2' && board[2] != '3' && board[3] != '4' && board[4] != '5' && board[5] != '6' && board[6] != '7' && board[7] != '8' && board[8] != '9')
+            {
+                ticTac = TicTac.Draw;
+            }
+
+
+            else
+            {
+                ticTac = TicTac.Next;
+            }
+        }
+
+        Console.WriteLine("Start!");
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Player 1: X and Player 2: O");
+            Console.WriteLine("\n");
+            if (player % 2 == 0)
+            {
+                Console.WriteLine("Turn Player 2");
+            }
+            else
+            {
+                Console.WriteLine("Turn Player 1");
+            }
+            Console.WriteLine("\n");
+            DrawBoard();
+            //Player Step
+            choice = int.Parse(Console.ReadLine()) - 1;
+            if (board[choice] != 'X' && board[choice] != 'O')
+            {
+                if (player % 2 == 0)
+                {
+                    board[choice] = 'O';
+                    player++;
+                }
+                else
+                {
+                    board[choice] = 'X';
+                    player++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sorry the row {0} is already marked with an {1}", choice + 1, board[choice]);
+                Thread.Sleep(000);
+            }
+            CheckWin();
+        }
+        while (ticTac != TicTac.Win && ticTac != TicTac.Draw);
+        Console.Clear();
+        DrawBoard();
+
+        if (flag == 1)
+        {
+            Console.WriteLine("Player {0} has won!", player % 2 + 1);
         }
         else
         {
-            board[choice] = 'X';
-            player++;
+            Console.WriteLine("Draw!");
         }
+        Console.ReadLine();
     }
-    else
-    {
-        Console.WriteLine("Sorry the row {0} is already marked with an {1}", choice + 1, board[choice]);
-        System.Threading.Thread.Sleep(000);
-    }
-    flag = CheckWin();
 }
-while (flag != 1 && flag != -1);
-Console.Clear();
-DrawBoard();
 
-if (flag == 1)
-{
-    Console.WriteLine("Player {0} has won!", (player % 2) + 1);
-}
-else
-{
-    Console.WriteLine("Draw!");
-}
-Console.ReadLine();
+
